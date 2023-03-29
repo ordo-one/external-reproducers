@@ -6,12 +6,13 @@ protocol ClassIncrementable: Incrementable {
     func increment()
     func reset()
 }
+
 protocol StructIncrementable: Incrementable {
     mutating func increment()
     mutating func reset()
 }
 
-class ClassUnderlier: ClassIncrementable {
+final class ClassUnderlier: ClassIncrementable {
     var count = 0
     var x = "", y = "", z = ""
     func increment() {

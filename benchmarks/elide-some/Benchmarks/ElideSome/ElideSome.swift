@@ -212,21 +212,21 @@ let benchmarks = {
 
     // MARK: Inout var any storage with class Target
     Benchmark("varAnyStructStorageWithInoutExistential") { benchmark in
-        varAnyStorage.reset()
+        varAnyStructStorage.reset()
         for _ in benchmark.scaledIterations {
             blackHole(structTarget.existential(&varAnyStructStorage))
         }
     }
 
     Benchmark("varAnyStructStorageWithInoutGeneric") { benchmark in
-        varAnyStorage.reset()
+        varAnyStructStorage.reset()
         for _ in benchmark.scaledIterations {
             blackHole(structTarget.generic(&varAnyStructStorage))
         }
     }
 
     Benchmark("varAnyStructStorageWithInoutConcrete") { benchmark in
-        varAnyStorage.reset()
+        varAnyStructStorage.reset()
         for _ in benchmark.scaledIterations {
             blackHole(structTarget.opaque(&varAnyStructStorage))
         }
@@ -235,14 +235,14 @@ let benchmarks = {
     // MARK: Inout var some storage WithInout class Target
 
     Benchmark("varSomeStructStorageWithInoutGeneric") { benchmark in
-        varSomeStorage.reset()
+        varSomeStructStorage.reset()
         for _ in benchmark.scaledIterations {
             blackHole(structTarget.generic(&varSomeStructStorage))
         }
     }
 
     Benchmark("varSomeStructStorageWithInoutConcrete") { benchmark in
-        varSomeStorage.reset()
+        varSomeStructStorage.reset()
         for _ in benchmark.scaledIterations {
             blackHole(structTarget.opaque(&varSomeStructStorage))
         }
@@ -251,14 +251,14 @@ let benchmarks = {
     // MARK: Inout var concrete storage class Target
 
     Benchmark("varConcreteStructStorageWithInoutGeneric") { benchmark in
-        varConcreteStorage.reset()
+        varConcreteStructStorage.reset()
         for _ in benchmark.scaledIterations {
             blackHole(structTarget.generic(&varConcreteStructStorage))
         }
     }
 
     Benchmark("varConcreteStructStorageWithInoutConcrete") { benchmark in
-        varConcreteStorage.reset()
+        varConcreteStructStorage.reset()
         for _ in benchmark.scaledIterations {
             blackHole(structTarget.opaque(&varConcreteStructStorage))
         }
