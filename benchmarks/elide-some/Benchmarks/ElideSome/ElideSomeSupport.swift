@@ -12,7 +12,7 @@ protocol StructIncrementable: Incrementable {
     mutating func reset()
 }
 
-final class ClassUnderlier: ClassIncrementable {
+class ClassUnderlier: ClassIncrementable {
     var count = 0
     var x = "", y = "", z = ""
     func increment() {

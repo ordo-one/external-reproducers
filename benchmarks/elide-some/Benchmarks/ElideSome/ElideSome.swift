@@ -7,9 +7,9 @@ let benchmarks = {
     var classTarget = ClassIncrementer()
     var structTarget = StructIncrementer()
 
-    let anyStorage: any ClassIncrementable = ClassUnderlier()
-    let someStorage: some ClassIncrementable = ClassUnderlier()
-    let concreteStorage = ClassUnderlier()
+    let letAnyStorage: any ClassIncrementable = ClassUnderlier()
+    let letSomeStorage: some ClassIncrementable = ClassUnderlier()
+    let letConcreteStorage = ClassUnderlier()
 
     var varAnyStorage: any ClassIncrementable = ClassUnderlier()
     var varSomeStorage: some ClassIncrementable = ClassUnderlier()
@@ -20,73 +20,72 @@ let benchmarks = {
     var varConcreteStructStorage = StructUnderlier()
 
     Benchmark.defaultConfiguration.scalingFactor = .mega
-    Benchmark.defaultConfiguration.warmupIterations = 0
     Benchmark.defaultConfiguration.maxDuration = .seconds(3)
     Benchmark.defaultConfiguration.timeUnits = .microseconds
     
     // MARK: Let any storage with class Target
     Benchmark("letAnyStorageWithExistential") { benchmark in
-        anyStorage.reset()
+        letAnyStorage.reset()
         for _ in benchmark.scaledIterations {
-            blackHole(classTarget.existential(anyStorage))
+            blackHole(classTarget.existential(letAnyStorage))
         }
     }
 
     Benchmark("letAnyStorageWithGeneric") { benchmark in
-        anyStorage.reset()
+        letAnyStorage.reset()
         for _ in benchmark.scaledIterations {
-            blackHole(classTarget.generic(anyStorage))
+            blackHole(classTarget.generic(letAnyStorage))
         }
     }
 
     Benchmark("letAnyStorageWithConcrete") { benchmark in
-        anyStorage.reset()
+        letAnyStorage.reset()
         for _ in benchmark.scaledIterations {
-            blackHole(classTarget.opaque(anyStorage))
+            blackHole(classTarget.opaque(letAnyStorage))
         }
     }
 
     // MARK: Let some storage with class Target
     Benchmark("letSomeStorageWithExistential") { benchmark in
-        someStorage.reset()
+        letSomeStorage.reset()
         for _ in benchmark.scaledIterations {
-            blackHole(classTarget.existential(someStorage))
+            blackHole(classTarget.existential(letSomeStorage))
         }
     }
 
     Benchmark("letSomeStorageWithGeneric") { benchmark in
-        someStorage.reset()
+        letSomeStorage.reset()
         for _ in benchmark.scaledIterations {
-            blackHole(classTarget.generic(someStorage))
+            blackHole(classTarget.generic(letSomeStorage))
         }
     }
 
     Benchmark("letSomeStorageWithConcrete") { benchmark in
-        someStorage.reset()
+        letSomeStorage.reset()
         for _ in benchmark.scaledIterations {
-            blackHole(classTarget.opaque(someStorage))
+            blackHole(classTarget.opaque(letSomeStorage))
         }
     }
 
     // MARK: Let concrete storage with class Target
     Benchmark("letConcreteStorageWithExistential") { benchmark in
-        concreteStorage.reset()
+        letConcreteStorage.reset()
         for _ in benchmark.scaledIterations {
-            blackHole(classTarget.existential(concreteStorage))
+            blackHole(classTarget.existential(letConcreteStorage))
         }
     }
 
     Benchmark("letConcreteStorageWithGeneric") { benchmark in
-        concreteStorage.reset()
+        letConcreteStorage.reset()
         for _ in benchmark.scaledIterations {
-            blackHole(classTarget.generic(concreteStorage))
+            blackHole(classTarget.generic(letConcreteStorage))
         }
     }
 
     Benchmark("letConcreteStorageWithConcrete") { benchmark in
-        concreteStorage.reset()
+        letConcreteStorage.reset()
         for _ in benchmark.scaledIterations {
-            blackHole(classTarget.opaque(concreteStorage))
+            blackHole(classTarget.opaque(letConcreteStorage))
         }
     }
 
