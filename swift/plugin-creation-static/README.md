@@ -11,7 +11,7 @@
 * `swift run Exec --generic`
 
 ## Test description
-Tests loads `Lib` librayr dynamically and instantiate instance of the plugin implemented in package `Lib`. Loading is implemented using [bundle](https://github.com/ordo-one/package-bundle) and [bundle-manager](https://github.com/ordo-one/package-bundle-manager) projects. After library is loaded a Factory is stored in dictionary: `name->factory`. Then test lookup factory by name and try to instantiate a plugin instance.
+Tests loads the `Lib` library dynamically and instantiate an instance of the plugin implemented by the package `Lib`. Loading is implemented using [bundle](https://github.com/ordo-one/package-bundle) and [bundle-manager](https://github.com/ordo-one/package-bundle-manager) projects. After library is loaded a Factory is stored in dictionary: `name->factory`. Then test lookup factory by name and try to instantiate a plugin instance.
 
 ## Test case `Specific`
 This test case works as intended in both debug and release modes:
