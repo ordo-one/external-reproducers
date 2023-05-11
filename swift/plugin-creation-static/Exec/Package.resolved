@@ -1,0 +1,50 @@
+{
+  "pins" : [
+    {
+      "identity" : "package-bundle",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ordo-one/package-bundle",
+      "state" : {
+        "revision" : "bbcdfd831cd255baca8dab49b6dca31c15786cde",
+        "version" : "2.0.0"
+      }
+    },
+    {
+      "identity" : "package-bundle-manager",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ordo-one/package-bundle-manager",
+      "state" : {
+        "revision" : "8f2d15cd7f315cd0fd897bb7882c798bf1300bda",
+        "version" : "2.0.0"
+      }
+    },
+    {
+      "identity" : "swift-argument-parser",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-argument-parser.git",
+      "state" : {
+        "revision" : "fee6933f37fde9a5e12a1e4aeaa93fe60116ff2a",
+        "version" : "1.2.2"
+      }
+    },
+    {
+      "identity" : "swift-log",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-log",
+      "state" : {
+        "revision" : "32e8d724467f8fe623624570367e3d50c5638e46",
+        "version" : "1.5.2"
+      }
+    },
+    {
+      "identity" : "swift-system",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/apple/swift-system",
+      "state" : {
+        "revision" : "025bcb1165deab2e20d4eaba79967ce73013f496",
+        "version" : "1.2.1"
+      }
+    }
+  ],
+  "version" : 2
+}
