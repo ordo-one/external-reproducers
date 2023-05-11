@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "package-bundle",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/ordo-one/package-bundle",
+      "state" : {
+        "revision" : "bbcdfd831cd255baca8dab49b6dca31c15786cde",
+        "version" : "2.0.0"
+      }
+    }
+  ],
+  "version" : 2
+}
