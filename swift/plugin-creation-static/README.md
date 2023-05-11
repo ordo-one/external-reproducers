@@ -1,13 +1,14 @@
 # Description
 
 ## Step to prepare
-- Checkout three packges: `Api`, `Lib`, `Exec`
-- Build `Lib` package using: `swift build`, debug build is enough
-- Build `Exec` package using: `swift build; swift build -c release`.
-- Run `Exec` executable with three different modes: `--specific`, `--any`, `--generic`:
-`swift run Exec --specific`
-`swift run Exec --any`
-`swift run Exec --generic`
+- Checkout all three packages: `Api`, `Lib`, `Exec` (or the whole `ordo-one/external-reproducers` repo and go to `swift/plugin-creation-static`)
+- Build the `Lib` package using: `swift build`, debug build is enough
+- Build the `Exec` package using: `swift build; swift build -c release`.
+- Run the `Exec` executable with three different modes:
+
+* `swift run Exec --specific`
+* `swift run Exec --any`
+* `swift run Exec --generic`
 
 ## Test description
 Tests loads `Lib` librayr dynamically and instantiate instance of the plugin implemented in package `Lib`. Loading is implemented using [bundle](https://github.com/ordo-one/package-bundle) and [bundle-manager](https://github.com/ordo-one/package-bundle-manager) projects. After library is loaded a Factory is stored in dictionary: `name->factory`. Then test lookup factory by name and try to instantiate a plugin instance.
