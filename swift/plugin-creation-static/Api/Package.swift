@@ -16,14 +16,10 @@ let package = Package(
         ),
     ],
     dependencies: [
-        .package(url: "https://github.com/ordo-one/package-bundle", .upToNextMajor(from: "2.0.0")),
     ],
     targets: [
         .target(
-            name: "Api",
-            dependencies: [
-                .product(name: "Bundle", package: "package-bundle"),
-            ]
+            name: "Api"
         ),
     ]
 )

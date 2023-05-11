@@ -1,5 +1,3 @@
-import Bundle
-
 /// Protocol to which any plugin must conform to be plugable.
 public protocol Plugin: Actor {
     init()
