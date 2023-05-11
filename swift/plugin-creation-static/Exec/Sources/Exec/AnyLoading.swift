@@ -45,6 +45,7 @@ public class AnyLoading {
     }
     
     public func run() async throws {
+        print("Start test 'any'")
         try await loadPlugins(at: "../Lib/.build/debug/")
         print("Loading done, now let's find and create plugin with name 'Lib'")
         let plugin = try instantiate(plugin: "Lib", ofType: Plugin.self)

@@ -45,7 +45,8 @@ public class GenericLoading {
     }
     
     public func run() async throws {
-        try await loadPlugins(at: "../Lib/.build/release/", of: PluginFactory.self)
+        print("Start test 'generic'")
+        try await loadPlugins(at: "../Lib/.build/debug/", of: PluginFactory.self)
         print("Loading done, now let's find and create plugin with name 'Lib'")
         let plugin = try instantiate(plugin: "Lib", ofType: Plugin.self)
         print("Done, shutting down")
