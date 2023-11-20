@@ -2,5 +2,5 @@ git clone https://github.com/ordo-one/package-distributed-system-conformance.git
 cd package-distributed-system-conformance
 swift build
 cd ..
-xcodebuild -create-xcframework -library package-distributed-system-conformance/.build/arm64-apple-macosx/debug/libDistributedSystemConformance.dylib -output DistributedSystemConformance.xcframework -allow-internal-distribution
+xcodebuild -create-xcframework -library package-distributed-system-conformance/.build/arm64-apple-macosx/debug/libDistributedSystemConformance.dylib -output DistributedSystemConformance.xcframework
 swift build

@@ -9,11 +9,16 @@ let package = Package(
         .macOS(.v14)
     ],
     products: [],
-    dependencies: [],
+    dependencies: [
+        // .package(url: "https://github.com/ordo-one/package-distributed-system-conformance.git", from: "1.0.0")
+    ],
     targets: [
         .executableTarget(
             name: "XCFrameworkTest",
-            dependencies: ["DistributedSystemConformance"]
+            dependencies: [
+                "DistributedSystemConformance"
+                // .product(name: "DistributedSystemConformance", package: "package-distributed-system-conformance")
+            ]
         ),
         .binaryTarget(
             name: "DistributedSystemConformance",
