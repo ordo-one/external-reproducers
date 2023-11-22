@@ -2,23 +2,47 @@ import XCTest
 import Distributed
 @testable import DistributedSystem
 
-class ArgumentTypeSentinel {
-    init() { print("init: \(Unmanaged.passUnretained(self).toOpaque())") }
-    deinit { print("deinit: \(Unmanaged.passUnretained(self).toOpaque())") }
+class Sentinel {
+    let str: String
+
+    init(_ str: String) {
+        self.str = str
+        print("\(str).init: \(Unmanaged.passUnretained(self).toOpaque())")
+    }
+
+    deinit {
+        print("\(str).deinit: \(Unmanaged.passUnretained(self).toOpaque())")
+    }
+}
+
+struct InnerStruct {
+    let sentinel: Sentinel
+
+    init() {
+        self.sentinel = Sentinel("InnerStruct")
+    }
+}
+
+enum InnerEnum {
+    case v1(String)
+    case v2(InnerStruct)
 }
 
 struct ArgumentType: Codable {
-    let sentinel: ArgumentTypeSentinel
+    let sentinel: Sentinel
     let value: Int
+    let innerEnum: InnerEnum
     
     init(_ value: Int) {
-        self.sentinel = ArgumentTypeSentinel()
+        self.sentinel = Sentinel("ArgumentType")
         self.value = value
+        self.innerEnum = .v2(InnerStruct())
     }
 
     init(from decoder: Decoder) throws {
-        self.sentinel = ArgumentTypeSentinel()
+        self.sentinel = Sentinel("ArgumentType")
         self.value = 100
+        self.innerEnum = .v2(InnerStruct())
     }
 
     func encode(to encoder: Encoder) throws {
