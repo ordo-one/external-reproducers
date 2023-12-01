@@ -10,12 +10,22 @@ Conditions for reproducing:
 
 ```
 git clone https://github.com/ordo-one/external-reproducers.git
+cd external-reproducers
+git checkout xcode-code-coverage-slowdown
 cd xcode-code-coverage-slowdown
 ./xcodebuild.sh
 ```
 
-Build without coverage:
+Build without coverage by disabling coverage on the test plan:
 ```
 cp BinaryTreeUI-coverage-off.xctestplan BinaryTreeUI.xctestplan
 ./xcodebuild.sh
 ```
+
+The `build_log` file can be examined for the differences in compiler options after using either test plans. Code coming from SPM will be executing significantly slower.
+
+The Test Plan has a default value of all targets, not just the tests:
+![testplan-code-coverage-for-all-targets](https://github.com/ordo-one/external-reproducers/assets/103502659/0a53ab65-31e9-488d-a4c1-a423d6f9f1ff)
+
+Additionally, a default code coverage being enabled causes the binaries to run significanly slower, in the example application run time increases to 6 seconds from 3 when Xcode project level code coverage for release build is turned on (default).
+
