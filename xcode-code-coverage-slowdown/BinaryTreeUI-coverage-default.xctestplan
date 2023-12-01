@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "33E653EC-AB4F-47AA-8367-3AC6A4F21765",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:BinaryTreeUI.xcodeproj",
+      "identifier" : "083F8C9A2B07A65A006048E9",
+      "name" : "BinaryTreeUI"
+    }
+  },
+  "testTargets" : [
+    {
+      "parallelizable" : true,
+      "target" : {
+        "containerPath" : "container:BinaryTreeUI.xcodeproj",
+        "identifier" : "086F74702B1A07CF00EE2DFB",
+        "name" : "BinaryTreeUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
