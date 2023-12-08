@@ -34,6 +34,11 @@ let failingPredicate = #Predicate<Dummy> {
 do {
     _ = try JSONEncoder().encode(failingPredicate, configuration: configuration)
 } catch {
+    // Exception while encoding 'failingPredicate': The 'Foundation.PredicateExpressions.RangeExpressionContains<
+    //     Foundation.PredicateExpressions.ClosedRange<Foundation.PredicateExpressions.Value<Swift.Int>,
+    //     Foundation.PredicateExpressions.Value<Swift.Int>>, Foundation.PredicateExpressions.KeyPath<
+    //     Foundation.PredicateExpressions.Variable<PredicateRangeCoding.Dummy>, Swift.Int>>'
+    //     type is not in the provided allowlist (required by /)
     print("Exception while encoding 'failingPredicate': \(error)")
     print("\(configuration)")
 }
