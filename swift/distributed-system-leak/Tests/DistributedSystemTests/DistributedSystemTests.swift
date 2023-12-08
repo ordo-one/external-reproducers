@@ -15,17 +15,27 @@ class Sentinel {
     }
 }
 
-struct InnerStruct {
+struct InnerStruct1 {
+    let sentinel: Sentinel
+    let innerStruct2: InnerStruct2
+
+    init() {
+        self.sentinel = Sentinel("\(Self.self)")
+        self.innerStruct2 = InnerStruct2()
+    }
+}
+
+struct InnerStruct2 {
     let sentinel: Sentinel
 
     init() {
-        self.sentinel = Sentinel("InnerStruct")
+        self.sentinel = Sentinel("\(Self.self)")
     }
 }
 
 enum InnerEnum {
     case v1(String)
-    case v2(InnerStruct)
+    case v2(InnerStruct1)
 }
 
 struct ArgumentType: Codable {
@@ -36,13 +46,13 @@ struct ArgumentType: Codable {
     init(_ value: Int) {
         self.sentinel = Sentinel("ArgumentType")
         self.value = value
-        self.innerEnum = .v2(InnerStruct())
+        self.innerEnum = .v2(InnerStruct1())
     }
 
     init(from decoder: Decoder) throws {
         self.sentinel = Sentinel("ArgumentType")
         self.value = 100
-        self.innerEnum = .v2(InnerStruct())
+        self.innerEnum = .v2(InnerStruct1())
     }
 
     func encode(to encoder: Encoder) throws {
