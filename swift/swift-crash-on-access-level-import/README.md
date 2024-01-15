@@ -1,3 +1,5 @@
-# array-test
+# To reproduce:
 
-A description of this package.
+- Clone the repo
+- Go to `swift/swift-crash-on-access-level-import` folder
+- Run `swift build`
