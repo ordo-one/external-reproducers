@@ -36,24 +36,12 @@ extension Benchmark {
 
 let benchmarks = {
     Benchmark.defaultConfiguration = .init(
-        metrics: [.wallClock, .cpuTotal, .allocatedResidentMemory, .contextSwitches, .throughput] + .arc,
+        metrics: [.wallClock],
         warmupIterations: 0,
         scalingFactor: .one,
         maxDuration: .seconds(5),
-        maxIterations: 100/*,
-        thresholds: [
-            // Thresholds are wild guess mostly. Have to adjust with time.
-            .wallClock: .init(relative: [.p90: 10]),
-            .cpuTotal: .init(relative: [.p90: 0]),
-            .allocatedResidentMemory: .init(relative: [.p90: 20]),
-            .contextSwitches: .init(relative: [.p90: 10]),
-            .throughput: .init(relative: [.p90: 10]),
-            .objectAllocCount: .init(relative: [.p90: 10]),
-            .retainCount: .init(relative: [.p90: 10]),
-            .releaseCount: .init(relative: [.p90: 10]),
-            .retainReleaseDelta: .init(relative: [.p90: 10]),
-        ]*/
-    )
+        maxIterations: 100 
+   )
 
     Benchmark.setup = {
     }
