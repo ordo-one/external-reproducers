@@ -1,0 +1,11 @@
+{
+  "allocatedResidentMemory" : 9093120,
+  "contextSwitches" : 4,
+  "cpuTotal" : 414084,
+  "objectAllocCount" : 2,
+  "releaseCount" : 3,
+  "retainCount" : 0,
+  "retainReleaseDelta" : 1,
+  "throughput" : 1,
+  "wallClock" : 1063453125
+}
