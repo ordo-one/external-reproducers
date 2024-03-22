@@ -41,7 +41,13 @@ struct PredicateKeyPathProvidingCommand: ParsableCommand {
 
         print("predicate1=\(predicate1)")
 
-        let predicate2 = factory.createPredicate2(ofType: Root.Leaf.self)
+        let workingType = Root.Leaf.self
+        let failingType = type(of: Root.keyPaths[1].leafKeyPath!).rootType
+
+        print("workingType=\(workingType)")
+        print("failingType=\(failingType)")
+
+        let predicate2 = factory.createPredicate2(ofType: workingType)
 
         print("predicate2=\(predicate2)")
     }
@@ -62,15 +68,14 @@ struct PredicateFactory<RootType: PredicateKeyPathProviding> {
         )
     }
 
-    func createPredicate2<LeafType>(ofType: LeafType) -> any PredicateExpression {
+    func createPredicate2<LeafType>(ofType: LeafType.Type) -> any PredicateExpression {
         let rootVariable = PredicateExpressions.Variable<RootType>()
 
-        // this cast fails
         guard let rootKeyPath = RootType.keyPaths[1].rootKeyPath as? KeyPath<RootType, LeafType?> else {
             fatalError()
         }
 
-        guard let leafKeyPath = RootType.keyPaths[1].leafKeyPath as? KeyPath<LeafType, Int> else {
+        guard let leafKeyPath = RootType.keyPaths[1].leafKeyPath as? KeyPath<LeafType, Int?> else {
             fatalError()
         }
 
