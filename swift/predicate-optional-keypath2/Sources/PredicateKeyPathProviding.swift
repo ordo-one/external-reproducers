@@ -35,11 +35,15 @@ struct Root: PredicateKeyPathProviding {
 @main
 struct PredicateKeyPathProvidingCommand: ParsableCommand {
     mutating func run() throws {
-        let factory = PredicateFactory<Root>()
+        let factory = PredicateFactory()
 
-        let predicate1 = factory.createPredicate1()
+        let predicate1 = factory.createPredicate1(rootType: Root.self)
 
         print("predicate1=\(predicate1)")
+
+        let predicate2 = factory.createPredicate2(rootType: Root.self, leafType: Root.Leaf.self)
+
+        print("predicate2=\(predicate2)")
 
         let workingType = Root.Leaf.self
         let failingType = type(of: Root.keyPaths[1].leafKeyPath!).rootType
@@ -47,14 +51,16 @@ struct PredicateKeyPathProvidingCommand: ParsableCommand {
         print("workingType=\(workingType)")
         print("failingType=\(failingType)")
 
-        let predicate2 = factory.createPredicate2(ofType: workingType)
+#if hasFeature(ImplicitOpenExistentials)
+        let predicate3 = factory.createPredicate2(rootType: Root.self, leafType: failingType)
 
-        print("predicate2=\(predicate2)")
+        print("predicate3=\(predicate3)")
+#endif
     }
 }
 
-struct PredicateFactory<RootType: PredicateKeyPathProviding> {
-    func createPredicate1() -> any PredicateExpression {
+struct PredicateFactory {
+    func createPredicate1<RootType: PredicateKeyPathProviding>(rootType: RootType.Type) -> any PredicateExpression {
         let rootVariable = PredicateExpressions.Variable<RootType>()
         let rootKeyPath = RootType.keyPaths[0].rootKeyPath
 
@@ -68,7 +74,7 @@ struct PredicateFactory<RootType: PredicateKeyPathProviding> {
         )
     }
 
-    func createPredicate2<LeafType>(ofType: LeafType.Type) -> any PredicateExpression {
+    func createPredicate2<RootType: PredicateKeyPathProviding, LeafType>(rootType: RootType.Type, leafType: LeafType.Type) -> any PredicateExpression {
         let rootVariable = PredicateExpressions.Variable<RootType>()
 
         guard let rootKeyPath = RootType.keyPaths[1].rootKeyPath as? KeyPath<RootType, LeafType?> else {
