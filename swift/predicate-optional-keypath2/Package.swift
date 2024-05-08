@@ -16,6 +16,9 @@ let package = Package(
             name: "PredicateKeyPathProviding",
             dependencies: [
                 .product(name: "ArgumentParser", package: "swift-argument-parser"),
+            ],
+            swiftSettings: [
+                .enableUpcomingFeature("ImplicitOpenExistentials")
             ]
         ),
     ]
