@@ -37,31 +37,28 @@ struct PredicateKeyPathProvidingCommand: ParsableCommand {
     mutating func run() throws {
         let factory = PredicateFactory()
 
-        let predicate1 = factory.rootPredicate(rootType: Root.self)
-        print("predicate1=\(predicate1)")
-
         let hardcodedType = Root.Leaf.self
         print("hardcodedType=\(hardcodedType)")
-
-        let predicate2 = factory.leafPredicate(rootType: Root.self, leafType: hardcodedType)
-        print("predicate2=\(predicate2)")
 
         let dynamicType = type(of: Root.keyPaths[1].leafKeyPath!).rootType
         print("dynamicType=\(dynamicType)")
 
+        let predicate1 = factory.rootPredicate(rootType: Root.self)
+        print("predicate1=\(predicate1)")
+
+        let predicate2 = factory.leafPredicate(rootType: Root.self, leafType: hardcodedType)
+        print("predicate2=\(predicate2)")
+
 #if hasFeature(ImplicitOpenExistentials)
         let predicate3 = factory.leafPredicate(rootType: Root.self, leafType: dynamicType)
-        print("predicate3=\(predicate3)")
+        print("predicate3/ImplicitOpenExistentials=\(predicate3)")
 #else
         func leaf<LeafType>(_: LeafType.Type) -> LeafType.Type {
             LeafType.self
         }
 
-        let openedType = leaf(_openExistential(dynamicType, do: leaf))
-        print("openedType=\(openedType)")
-
-        let predicate3 = factory.leafPredicate(rootType: Root.self, leafType: openedType)
-        print("predicate3=\(predicate3)")
+        let predicate3 = factory.leafPredicate(rootType: Root.self, leafType: _openExistential(dynamicType, do: leaf))
+        print("predicate3/_openExistential=\(predicate3)")
 #endif
     }
 }
