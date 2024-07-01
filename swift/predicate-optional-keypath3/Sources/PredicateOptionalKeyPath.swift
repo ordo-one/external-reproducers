@@ -18,7 +18,7 @@ struct Root {
 @main
 struct PredicateOptionalKeyPath: ParsableCommand {
     mutating func run() throws {
-        // this works
+        // macro version
         let predicate1 = #Predicate<Root> {
             if $0.optionalLeaf == nil {
                 true
@@ -27,9 +27,7 @@ struct PredicateOptionalKeyPath: ParsableCommand {
             }
         }
 
-        // created from predicate1 by copying from output of "Expand Macro" in Xcode
-        // does not build:
-        // Referencing static method 'build_Equal(lhs:rhs:)' on 'Optional' requires that 'Root.Leaf' conform to 'Equatable'
+        // manual version
         let predicate2 = Foundation.Predicate<Root>({
             PredicateExpressions.build_Conditional(
                 PredicateExpressions.build_Equal(
