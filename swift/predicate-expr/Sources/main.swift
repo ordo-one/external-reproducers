@@ -36,6 +36,6 @@ extension PredicateExpressionProviding {
     }
 }
 
-guard let rootOutputTypeName = _mangledTypeName(String.self) else { fatalError() }
+guard let rootOutputTypeName = _mangledTypeName(MyStruct.self) else { fatalError() }
 let expr = Int.buildKeyPath(rootOutputTypeName)
 print("\(type(of: expr))")
