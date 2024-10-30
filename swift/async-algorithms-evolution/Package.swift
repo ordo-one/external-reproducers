@@ -23,6 +23,9 @@ let package = Package(
             name: "TestLib",
             dependencies: [
                 .product(name: "AsyncAlgorithms", package: "swift-async-algorithms")
+            ],
+            swiftSettings: [
+                .unsafeFlags(["-enable-library-evolution", "-emit-module-interface"])
             ]
         )
     ]
