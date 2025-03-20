@@ -8,15 +8,7 @@ let package = Package(
     platforms: [
         .macOS(.v15)
     ],
-    dependencies: [
-        .package(url: "https://github.com/apple/swift-argument-parser", .upToNextMajor(from: "1.1.0"))
-    ],
     targets: [
-        .executableTarget(
-            name: "task-cancellation",
-            dependencies: [
-                .product(name: "ArgumentParser", package: "swift-argument-parser")
-            ]
-        ),
+        .executableTarget(name: "task-cancellation")
     ]
 )
