@@ -1,0 +1,5 @@
+/benchmarks/*/.build
+/benchmarks/*/Package.resolved
+
+/swift/*/.build
+/swift/*/Package.resolved
