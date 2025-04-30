@@ -67,7 +67,7 @@ jobs:
         id: compare_performance
         run: |
 
-          swift package --package-path benchmarks/test_improvement benchmark compare baseline_one baseline_two
+          swift package --package-path benchmarks/test_improvement benchmark baseline compare baseline_one baseline_two
 
           if ! swift package --package-path benchmarks/test_improvement benchmark baseline check baseline_two baseline_one --format markdown > /tmp/comparison.md 2>/tmp/comparison-stderr.txt; then
             echo "has_significant_changes=true" >> "$GITHUB_OUTPUT"
