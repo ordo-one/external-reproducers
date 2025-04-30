@@ -21,7 +21,7 @@ let package = Package(
         .macOS(.v13),
     ],
     dependencies: [
-        .package(url: "https://github.com/ordo-one/package-benchmark.git", from: "1.22.0"),
+        .package(url: "https://github.com/ordo-one/package-benchmark.git", from: "1.29.0"),
     ],
     targets: [
         .executableTarget(
