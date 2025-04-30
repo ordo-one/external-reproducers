@@ -68,6 +68,5 @@ jobs:
       - name: Measure PR performance
         run: |
           git clone https://github.com/ordo-one/package-benchmark.git
-          cd package-benchmark
           swift package --package-path package-benchmark/Benchmarks benchmark --target Basic --filter Basic
 
