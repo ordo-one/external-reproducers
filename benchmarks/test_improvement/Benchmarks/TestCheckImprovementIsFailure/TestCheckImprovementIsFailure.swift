@@ -36,7 +36,7 @@ extension Benchmark {
 
 let benchmarks = {
     Benchmark.defaultConfiguration = .init(
-        metrics: [.wallClock],
+        metrics: [.wallClock, .instructions],
         warmupIterations: 0,
         scalingFactor: .one,
         maxDuration: .seconds(5),

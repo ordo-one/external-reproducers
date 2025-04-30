@@ -58,15 +58,15 @@ jobs:
         run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
       - name: Measure PR performance
         run: |
-          swift package --package-path benchmarks/test_improvement --allow-writing-to-directory benchmarks/test_improvement/.benchmarkBaselines/ benchmark baseline update "${{ github.head_ref }}"
+          swift package --package-path benchmarks/test_improvement --allow-writing-to-directory benchmarks/test_improvement/.benchmarkBaselines/ benchmark baseline update baseline_one
       - name: Measure base branch performance
         run: |
           git checkout ${{ github.base_ref }}
-          swift package --package-path benchmarks/test_improvement --allow-writing-to-directory benchmarks/test_improvement/.benchmarkBaselines/ benchmark baseline update "${{ github.base_ref }}"
+          swift package --package-path benchmarks/test_improvement --allow-writing-to-directory benchmarks/test_improvement/.benchmarkBaselines/ benchmark baseline update baseline_two
       - name: Compare performance measurements
         id: compare_performance
         run: |
-          if ! swift package --package-path benchmarks/test_improvement benchmark baseline check "${{ github.base_ref }}" "${{ github.head_ref }}" --format markdown > /tmp/comparison.md 2>/tmp/comparison-stderr.txt; then
+          if ! swift package --package-path benchmarks/test_improvement benchmark baseline check baseline_two baseline_one --format markdown > /tmp/comparison.md 2>/tmp/comparison-stderr.txt; then
             echo "has_significant_changes=true" >> "$GITHUB_OUTPUT"
           else
             echo "has_significant_changes=false" >> "$GITHUB_OUTPUT"
@@ -85,7 +85,7 @@ jobs:
           apt update
           apt install gh -y
       - name: Post comment
-        if: ${{ steps.compare_performance.outputs.has_significant_changes == 'true' }}
+        #if: ${{ steps.compare_performance.outputs.has_significant_changes == 'true' }}
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
@@ -107,4 +107,5 @@ jobs:
           echo "</details>" > /tmp/performance_change_footer.md
 
           COMMENT="$(cat /tmp/performance_change_header.md /tmp/comparison.md /tmp/performance_change_footer.md)"
-          gh pr comment ${{ github.event.number }} --body "$COMMENT"
+          cat /tmp/performance_change_header.md /tmp/comparison.md /tmp/performance_change_footer.md
+          #gh pr comment ${{ github.event.number }} --body "$COMMENT"
