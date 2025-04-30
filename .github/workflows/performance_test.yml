@@ -63,6 +63,9 @@ jobs:
           #perf stat sleep 1
           echo "Change perf event:"
           sudo sysctl -w kernel.perf_event_paranoid=-1
+
+          echo "Instructions:"
+          perf list
           echo "Instructions again:"
           perf stat -e instructions sleep 1
             
