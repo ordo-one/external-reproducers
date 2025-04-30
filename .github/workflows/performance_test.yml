@@ -69,8 +69,8 @@ jobs:
           echo "Instructions again:"
           perf stat -e instructions sleep 1
             
-      #- name: Setup tmate session
-      #  uses: mxschmitt/action-tmate@v3
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
       - name: Measure PR performance
         run: |
           git clone https://github.com/ordo-one/package-benchmark.git
