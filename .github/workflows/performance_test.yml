@@ -63,9 +63,24 @@ jobs:
           sudo sysctl -w kernel.perf_event_paranoid=-1
           perf stat -e instructions sleep 1
 
+      - name: Configure SSH
+        env:
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          apt-get update && apt-get install -y openssh-client git
+          mkdir -p ~/.ssh
+          ssh-keyscan github.com >> ~/.ssh/known_hosts
+          
+          # Start SSH agent
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null
+          
+          # Add key from secrets
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tr -d '\r' | ssh-add -
             
       - name: Setup tmate session
         uses: mxschmitt/action-tmate@v3
+        with:
+          limit-access-to-actor: true
       - name: Measure PR performance
         run: |
           swift package --package-path benchmarks/test_improvement --allow-writing-to-directory benchmarks/test_improvement/.benchmarkBaselines/ benchmark baseline update baseline_one
