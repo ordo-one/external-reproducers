@@ -40,9 +40,9 @@ jobs:
   measure_performance:
     name: Measure performance
     runs-on: ubuntu-latest
-    container:
-      image: ${{ inputs.container }}
-      options: "--cap-add SYS_ADMIN --privileged"
+    #container:
+    #  image: ${{ inputs.container }}
+    #  options: "--cap-add SYS_ADMIN --privileged"
     timeout-minutes: 60
     permissions:
       pull-requests: write
