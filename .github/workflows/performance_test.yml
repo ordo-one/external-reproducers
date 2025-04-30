@@ -56,6 +56,12 @@ jobs:
       - name: Mark the workspace as safe
         # https://github.com/actions/checkout/issues/766
         run: git config --global --add safe.directory ${GITHUB_WORKSPACE}
+      - name: setup
+        continue-on-error: true
+        run: |
+          perf stat sleep 1
+          sudo sysctl -w kernel.perf_event_paranoid=-1
+          perf stat -e instructions sleep 1
       - name: Measure PR performance
         run: |
           swift package --package-path benchmarks/test_improvement --allow-writing-to-directory benchmarks/test_improvement/.benchmarkBaselines/ benchmark baseline update baseline_one
