@@ -62,6 +62,10 @@ jobs:
           perf stat sleep 1
           sudo sysctl -w kernel.perf_event_paranoid=-1
           perf stat -e instructions sleep 1
+
+            
+      - name: Setup tmate session
+        uses: mxschmitt/action-tmate@v3
       - name: Measure PR performance
         run: |
           swift package --package-path benchmarks/test_improvement --allow-writing-to-directory benchmarks/test_improvement/.benchmarkBaselines/ benchmark baseline update baseline_one
