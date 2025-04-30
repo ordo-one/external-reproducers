@@ -2,6 +2,22 @@ name: Performance test
 
 on:
   workflow_dispatch:
+      inputs:
+      container:
+        type: string
+        description: "The container that the performance tests should run in"
+        default: "swift:latest"
+      package_path:
+        type: string
+        description: The directory in the repository that contains a package, which depends on ordo-one/package-benchmark and can run performance measurements.
+        default: Benchmarks
+      comment_header:
+        type: string
+        description: |
+          If the performance has changed, this text will be prepended to the comment that contains the performance measurements.
+          This can be either for performance improvements or regressions.
+        default: |
+          This PR has changed performance characteristics. Please review that the measurements reported below are expected. If these are improvements, thanks for improving the performance.
   workflow_call:
     inputs:
       container:
@@ -32,7 +48,7 @@ jobs:
       pull-requests: write
     steps:
       - name: Install libjemalloc-dev
-        run: apt-get update && apt-get install -y libjemalloc-dev
+        run: sudo -n apt-get update && sudo apt-get install -y libjemalloc-dev
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
