@@ -59,8 +59,8 @@ jobs:
       - name: setup
         continue-on-error: true
         run: |
-          echo "per stats:"
-          perf stat sleep 1
+          #echo "per stats:"
+          #perf stat sleep 1
           echo "Change perf event:"
           sudo sysctl -w kernel.perf_event_paranoid=-1
           echo "Instructions again:"
