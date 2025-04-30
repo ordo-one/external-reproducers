@@ -42,7 +42,7 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: ${{ inputs.container }}
-      options: "--cap-add SYS_ADMIN"
+      options: "--cap-add SYS_ADMIN --privileged"
     timeout-minutes: 60
     permissions:
       pull-requests: write
@@ -63,61 +63,11 @@ jobs:
           sudo sysctl -w kernel.perf_event_paranoid=-1
           perf stat -e instructions sleep 1
             
-      - name: Setup tmate session
-        uses: mxschmitt/action-tmate@v3
+      #- name: Setup tmate session
+      #  uses: mxschmitt/action-tmate@v3
       - name: Measure PR performance
         run: |
-          swift package --package-path benchmarks/test_improvement --allow-writing-to-directory benchmarks/test_improvement/.benchmarkBaselines/ benchmark baseline update baseline_one
-      - name: Measure base branch performance
-        run: |
-          git checkout ${{ github.base_ref }}
-          swift package --package-path benchmarks/test_improvement --allow-writing-to-directory benchmarks/test_improvement/.benchmarkBaselines/ benchmark baseline update baseline_two
-      - name: Compare performance measurements
-        id: compare_performance
-        run: |
+          git clone https://github.com/ordo-one/package-benchmark.git
+          cd package-benchmark
+          swift package --package-path package-benchmark/Benchmarks benchmark --target Basic --filter Basic
 
-          swift package --package-path benchmarks/test_improvement benchmark baseline compare baseline_one baseline_two
-
-          if ! swift package --package-path benchmarks/test_improvement benchmark baseline check baseline_two baseline_one --format markdown > /tmp/comparison.md 2>/tmp/comparison-stderr.txt; then
-            echo "has_significant_changes=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "has_significant_changes=false" >> "$GITHUB_OUTPUT"
-          fi
-      - name: Install gh
-        if: ${{ steps.compare_performance.outputs.has_significant_changes == 'true' }}
-        # Installation instructions from https://github.com/cli/cli/blob/trunk/docs/install_linux.md#debian-ubuntu-linux-raspberry-pi-os-apt
-        run: |
-          (type -p wget >/dev/null || (apt update && apt-get install wget -y))
-          mkdir -p -m 755 /etc/apt/keyrings
-          out=$(mktemp)
-          wget -nv -O$out https://cli.github.com/packages/githubcli-archive-keyring.gpg
-          cat $out | tee /etc/apt/keyrings/githubcli-archive-keyring.gpg > /dev/null
-          chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg
-          echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | tee /etc/apt/sources.list.d/github-cli.list > /dev/null
-          apt update
-          apt install gh -y
-      - name: Post comment
-        #if: ${{ steps.compare_performance.outputs.has_significant_changes == 'true' }}
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          if grep benchmarkThresholdRegression /tmp/comparison-stderr.txt > /dev/null; then
-            PERFORMANCE_CHANGE_MESSAGE="This PR has regressed performance characteristics. Please review whether the changes reported below are expected or if you can do something to improve them."
-          elif grep benchmarkThresholdImprovement /tmp/comparison-stderr.txt > /dev/null; then
-            PERFORMANCE_CHANGE_MESSAGE="This PR has improved performance characteristics. Thank you 🚀"
-          else
-            PERFORMANCE_CHANGE_MESSAGE="This PR has changed performance characteristics. Please review that the measurements reported below are expected or if you can do something to improve them."
-          fi
-
-          cat > /tmp/performance_change_header.md <<EOF
-          $PERFORMANCE_CHANGE_MESSAGE
-
-          <details><summary><b>Performance report</b></summary>
-
-          EOF
-
-          echo "</details>" > /tmp/performance_change_footer.md
-
-          COMMENT="$(cat /tmp/performance_change_header.md /tmp/comparison.md /tmp/performance_change_footer.md)"
-          cat /tmp/performance_change_header.md /tmp/comparison.md /tmp/performance_change_footer.md
-          #gh pr comment ${{ github.event.number }} --body "$COMMENT"
