@@ -14,7 +14,7 @@ let metrics: [BenchmarkMetric] = [
 ]
 
 let benchmarks:@Sendable () -> () = {
-    Benchmark.init("x.id",
+    Benchmark.init("Existential",
         configuration: .init(metrics: metrics,
             scalingFactor: .mega,
             maxDuration: .seconds(10))
@@ -26,7 +26,7 @@ let benchmarks:@Sendable () -> () = {
         }
     }
 
-    Benchmark.init("y.id",
+    Benchmark.init("Concrete Struct",
         configuration: .init(metrics: metrics,
             scalingFactor: .mega,
             maxDuration: .seconds(10))
@@ -38,7 +38,7 @@ let benchmarks:@Sendable () -> () = {
         }
     }
 
-    Benchmark.init("z.id",
+    Benchmark.init("Concrete Class",
         configuration: .init(metrics: metrics,
             scalingFactor: .mega,
             maxDuration: .seconds(10))
