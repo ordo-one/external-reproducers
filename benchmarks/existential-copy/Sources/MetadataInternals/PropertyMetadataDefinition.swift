@@ -27,3 +27,15 @@ public final class PropertyMetadataClass: PropertyMetadataDefinition {
         self.b = b
     }
 }
+
+public final class PropertyMetadataClassWrapper: PropertyMetadataDefinition {
+    private let wrapped: any PropertyMetadataDefinition
+
+    public init(id: UInt64, a: String, b: String) {
+        self.wrapped = PropertyMetadataStruct.init(id: id, a: a, b: b)
+    }
+
+    public var id: UInt64 { wrapped.id }
+    public var a: String { wrapped.a }
+    public var b: String { wrapped.b }
+}

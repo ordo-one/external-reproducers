@@ -36,6 +36,18 @@ public struct Z: Sendable {
     public var b: String { self.definition.b }
 }
 
+public struct W: Sendable {
+    private let definition: PropertyMetadataClassWrapper
+
+    public init(definition: PropertyMetadataClassWrapper) {
+        self.definition = definition
+    }
+
+    public var id: UInt64 { self.definition.id }
+    public var a: String { self.definition.a }
+    public var b: String { self.definition.b }
+}
+
 public enum E {
     public static let x: X = .init(definition: PropertyMetadataStruct.init(
         id: 1,
@@ -48,6 +60,11 @@ public enum E {
         b: "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
     ))
     public static let z: Z = .init(definition: PropertyMetadataClass.init(
+        id: 1,
+        a: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+        b: "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    ))
+    public static let w: W = .init(definition: PropertyMetadataClassWrapper.init(
         id: 1,
         a: "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
         b: "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
