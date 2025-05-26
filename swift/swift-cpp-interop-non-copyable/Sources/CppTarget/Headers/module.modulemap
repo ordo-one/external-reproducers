@@ -1,0 +1,5 @@
+module TestLibCpp {
+    requires cplusplus
+    header "LibCpp/Test.h"
+    export *
+}
