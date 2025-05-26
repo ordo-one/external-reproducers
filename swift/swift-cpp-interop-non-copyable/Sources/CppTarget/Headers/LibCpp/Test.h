@@ -3,8 +3,6 @@
 
 namespace Foo {
 
-// setting SWIFT_NONCOPYABLE doesn't have any effect:
-// record 'Class2' is not automatically available: does not have a copy constructor or destructor; does this type have reference semantics
 class Class1 {
 public:
     Class1(long);
@@ -12,6 +10,8 @@ public:
     virtual ~Class1();
 };
 
+// setting SWIFT_NONCOPYABLE doesn't have any effect:
+// record 'Class2' is not automatically available: does not have a copy constructor or destructor; does this type have reference semantics
 class Class2: Class1 {
 public:
     Class2(); // cannot compile without this constructor when marking SWIFT_NONCOPYABLE
