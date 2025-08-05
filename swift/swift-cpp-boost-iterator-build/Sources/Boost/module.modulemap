@@ -1,0 +1,5 @@
+module Boost {
+    requires cplusplus17
+    umbrella header "shims.h"
+    export *
+}
