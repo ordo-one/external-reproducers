@@ -32,20 +32,10 @@ let package = Package(
                 .linkedLibrary("boost_filesystem")
             ]
         ),
-        .target(
-            name: "BoostWrapper",
-            path: "Sources/BoostWrapper",
-            exclude: [],
-            publicHeadersPath: "./include/",
-            cxxSettings: [
-                .headerSearchPath("./"),
-            ]
-        ),
         .executableTarget(
             name: "CppTargetTest",
             dependencies: [
                 "Boost",
-                "BoostWrapper"
             ],
             swiftSettings: [.interoperabilityMode(.Cxx)]
         )
