@@ -9,7 +9,7 @@
 #include "boost/filesystem.hpp"
 
 
-boost::filesystem::path shim_path(const boost::filesystem::path& p) {
+inline boost::filesystem::path shim_path(const boost::filesystem::path& p) {
     auto it = p.rbegin();
     while (it != p.rend()) {
         ++it;

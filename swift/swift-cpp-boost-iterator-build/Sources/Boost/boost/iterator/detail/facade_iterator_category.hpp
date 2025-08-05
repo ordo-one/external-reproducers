@@ -164,6 +164,7 @@ struct facade_iterator_category_impl
         Traversal,ValueParam,Reference
     >::type category;
 
+#if true // the problem is here:
     typedef typename mpl::if_<
         is_same<
             Traversal
@@ -172,6 +173,14 @@ struct facade_iterator_category_impl
       , category
       , iterator_category_with_traversal<category,Traversal>
     >::type type;
+#else
+// can fix this way, meaning that `iterator_category_with_traversal` mus never instantiate
+    static_assert(std::is_same_v<
+        Traversal
+      , typename iterator_category_to_traversal<category>::type>);
+    using type = category;
+#endif
+
 };
 
 //
