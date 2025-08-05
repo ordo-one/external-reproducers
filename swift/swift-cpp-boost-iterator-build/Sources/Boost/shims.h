@@ -1,10 +1,3 @@
-//
-//  shims.h
-//  package-test-interop
-//
-//  Created by Andrey Potemkin on 4.8.2025.
-//
-
 #include "boost/iterator/iterator_facade.hpp"
 #include "boost/filesystem.hpp"
 
