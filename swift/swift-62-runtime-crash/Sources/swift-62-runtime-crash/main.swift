@@ -10,5 +10,5 @@ let predicate = #Predicate<TestIdentifiable> {
 
 let cache = make(predicate: predicate)
 
-print(try cache.entries())
+print(cache.predicate)
 

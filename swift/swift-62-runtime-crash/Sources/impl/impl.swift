@@ -16,32 +16,12 @@ private final class Impl<Object: Marker1 & Marker2 & Identifiable & Sendable>: P
         var predicate: Predicate<Object>?
         var instance: CacheInstanceBase<Object>?
         var array: [Object.ID: Object] = [:]
-
-        func entries() throws -> any Sequence<Object> {
-            guard let predicate = self.instance?.predicate ?? predicate else {
-                return []
-            }
-            let snapshot = try self.array.values.compactMap {
-                if try predicate.evaluate($0) {
-                    return $0
-                } else {
-                    return nil
-                }
-            }
-            return snapshot
-        }
     }
 
     private let state: Mutex<State>
 
     init(predicate: Predicate<Object>) {
         state = .init(.init(predicate: predicate, instance: .init(predicate: predicate)))
-    }
-
-    func entries() throws -> any Sequence<Object> {
-        try state.withLock {
-            try $0.entries()
-        }
     }
 
     var predicate: Predicate<Object> { state.withLock { $0.instance?.predicate ?? $0.predicate ?? .true } }

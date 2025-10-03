@@ -8,8 +8,6 @@ public protocol Base<Object, ObjectEntry>: Sendable {
     associatedtype ObjectEntry: Identifiable<Object.ID>
 
     var predicate: Predicate<Self.Object> { get }
-
-    func entries() throws -> any Sequence<Object>
 }
 
 public protocol Proto1<Object>: Base where Object == ObjectEntry {
