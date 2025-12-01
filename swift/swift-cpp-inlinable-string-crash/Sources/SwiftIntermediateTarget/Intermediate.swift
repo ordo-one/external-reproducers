@@ -2,11 +2,9 @@ import CppTarget
 
 extension Foo {
     @inlinable
-    var string: String? {
-        let opt = self.getStr()
-        guard opt.hasValue else {
-            return nil
+    public var string: String? {
+        self.getStr().value.map {
+            .init($0)
         }
-        return String(opt.pointee)
     }
 }

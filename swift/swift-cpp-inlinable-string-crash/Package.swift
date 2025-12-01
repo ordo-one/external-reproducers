@@ -26,7 +26,13 @@ let package = Package(
             name: "SwiftIntermediateTarget",
             dependencies: ["CppTarget"],
             swiftSettings: [.interoperabilityMode(.Cxx)]
+        ),
+        .executableTarget(
+            name: "CppTargetTest",
+            dependencies: ["CppTarget", "SwiftIntermediateTarget"],
+            swiftSettings: [.interoperabilityMode(.Cxx)]
         )
+
     ],
     cxxLanguageStandard: .gnucxx17
 )
