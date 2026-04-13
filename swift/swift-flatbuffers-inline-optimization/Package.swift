@@ -8,23 +8,10 @@ let package = Package(
         .macOS(.v26),
     ],
     products: [
-        .library(name: "Reproducer", targets: ["Reproducer"]),
         .library(name: "RawBytes", targets: ["RawBytes"]),
-        .library(name: "RawBuffer", targets: ["RawBuffer"]),
     ],
-    dependencies: [
-        .package(
-            url: "https://github.com/ordo-one/flatbuffers",
-            exact: "25.2.10-ordo.5"
-        ),
-    ],
+    dependencies: [],
     targets: [
-        .target(
-            name: "Reproducer",
-            dependencies: [
-                .product(name: "FlatBuffers", package: "flatbuffers"),
-            ]
-        ),
         .target(
             name: "RawBuffer"
         ),

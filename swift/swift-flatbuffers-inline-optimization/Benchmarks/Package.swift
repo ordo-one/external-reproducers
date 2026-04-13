@@ -15,7 +15,7 @@ let package = Package(
         .executableTarget(
             name: "ReadTimeCreated",
             dependencies: [
-                .product(name: "Reproducer", package: "swift-flatbuffers-inline-optimization"),
+                .product(name: "RawBytes", package: "swift-flatbuffers-inline-optimization"),
                 .product(name: "Benchmark", package: "package-benchmark"),
             ],
             path: "Benchmarks/ReadTimeCreated",
