@@ -9,6 +9,8 @@ let package = Package(
     ],
     products: [
         .library(name: "Reproducer", targets: ["Reproducer"]),
+        .library(name: "RawBytes", targets: ["RawBytes"]),
+        .library(name: "RawBuffer", targets: ["RawBuffer"]),
     ],
     dependencies: [
         .package(
@@ -22,6 +24,13 @@ let package = Package(
             dependencies: [
                 .product(name: "FlatBuffers", package: "flatbuffers"),
             ]
+        ),
+        .target(
+            name: "RawBuffer"
+        ),
+        .target(
+            name: "RawBytes",
+            dependencies: ["RawBuffer"]
         ),
     ]
 )
