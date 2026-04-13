@@ -10,7 +10,7 @@ let benchmarks: @Sendable () -> Void = {
     )
 
     Benchmark("read timeCreated hot loop") { benchmark in
-        let (buffer, trade) = PublicTrade.make(nanoseconds: 1_700_000_000_000_000_000)
+        let (buffer, trade) = FBBTable.make(nanoseconds: 1_700_000_000_000_000_000)
         // Hold on to the FlatBuffers buffer so the reader's pointer stays valid
         // for the duration of the hot loop.
         _ = buffer

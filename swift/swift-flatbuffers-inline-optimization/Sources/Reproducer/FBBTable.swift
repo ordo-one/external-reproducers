@@ -7,13 +7,13 @@ import FlatBuffers
 /// without the `any _PublicTrade` existential indirection. The goal is to see
 /// whether the accessor chain
 ///
-///     PublicTrade.timeCreated
+///     FBBTable.timeCreated
 ///       -> Repro_PublicTrade.timeCreated (reads from FlatBuffers Table)
 ///       -> Repro_Timestamp.nanosecondsSinceUnixEpoch
 ///       -> Timestamp.init(_: Repro_Timestamp)
 ///
 /// fully inlines under `-O`.
-public struct PublicTrade: Sendable {
+public struct FBBTable: Sendable {
     // `Repro_PublicTrade` is not Sendable because it wraps a FlatBuffers
     // `Table` / `ByteBuffer`. Production `PublicTrade` in package-data-model
     // does the same thing via `nonisolated(unsafe) var _storage: any _PublicTrade`.
@@ -33,17 +33,17 @@ public struct PublicTrade: Sendable {
     }
 }
 
-extension PublicTrade {
+extension FBBTable {
     /// Builds a FlatBuffers buffer containing a `PublicTrade` with the given
     /// timestamp and returns both the backing buffer (which must be kept alive
-    /// for as long as the wrapper is used) and the `PublicTrade` wrapper.
-    public static func make(nanoseconds: UInt64) -> (ByteBuffer, PublicTrade) {
+    /// for as long as the wrapper is used) and the `FBBTable` wrapper.
+    public static func make(nanoseconds: UInt64) -> (ByteBuffer, FBBTable) {
         var fbb = FlatBufferBuilder()
         let ts = Repro_Timestamp(nanosecondsSinceUnixEpoch: nanoseconds)
         let offset = Repro_PublicTrade.createPublicTrade(&fbb, timeCreated: ts)
         fbb.finish(offset: offset)
         var buffer = fbb.sizedBuffer
         let reader: Repro_PublicTrade = getRoot(byteBuffer: &buffer)
-        return (buffer, PublicTrade(reader))
+        return (buffer, FBBTable(reader))
     }
 }
