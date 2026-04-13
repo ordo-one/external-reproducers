@@ -1,0 +1,11 @@
+namespace Repro;
+
+struct Timestamp {
+    nanoseconds_since_unix_epoch: ulong;
+}
+
+table PublicTrade {
+    time_created: Timestamp (required);
+}
+
+root_type PublicTrade;
