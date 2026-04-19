@@ -1,0 +1,18 @@
+name: ThrowingCallPerf
+options:
+    bundleIdPrefix: com.ordo-one
+    createSharedSchemes: true
+targets:
+    ThrowingCallPerf:
+        type: framework
+        platform: [macOS]
+        deploymentTarget:
+            macOS: "15.0"
+            iOS: "18.0"
+        sources:
+            - path: Sources/ThrowingCallPerf
+        settings:
+            base:
+                BUILD_LIBRARY_FOR_DISTRIBUTION: YES
+                GENERATE_INFOPLIST_FILE: YES
+                SKIP_INSTALL: NO
