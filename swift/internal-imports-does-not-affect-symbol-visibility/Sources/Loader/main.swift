@@ -4,8 +4,16 @@ import Foundation
 let executableURL = URL(fileURLWithPath: CommandLine.arguments[0])
 let base = executableURL.deletingLastPathComponent()
 
-let libA = base.appendingPathComponent("libPluginA.dylib").path
-let libB = base.appendingPathComponent("libPluginB.dylib").path
+#if os(macOS)
+let ext = "dylib"
+#elseif os(Linux)
+let ext = "so"
+#else
+#error("Not supported platform")
+#endif
+
+let libA = base.appendingPathComponent("libPluginA." + ext).path
+let libB = base.appendingPathComponent("libPluginB." + ext).path
 
 func open(_ path: String) -> UnsafeMutableRawPointer {
     print("Loading \(path)")
