@@ -1,0 +1,14 @@
+Per received call, timing mode: 20 batches of 10000 calls each per target and path (the two paths alternate batch by batch); load average 2.70 2.27 2.19
+noArgs  $s24ExecuteDistributedTarget6WorkerC6noArgsyyYaKFTE
+  runtime median   22226 instructions    863 ns   batch 1:   23145 instructions   1674 ns   batch 20:   22226 instructions    837 ns
+  direct median    1352 instructions     53 ns   batch 1:    1387 instructions     91 ns   batch 20:    1352 instructions     53 ns
+twoInts  $s24ExecuteDistributedTarget6WorkerC7twoIntsyS2i_SitYaKFTE
+  runtime median   44216 instructions   1657 ns   batch 1:   44438 instructions   1623 ns   batch 20:   44216 instructions   1651 ns
+  direct median    1542 instructions     63 ns   batch 1:    1542 instructions     62 ns   batch 20:    1542 instructions     63 ns
+stringAndArray  $s24ExecuteDistributedTarget6WorkerC14stringAndArrayySiSS_SaySiGtYaKFTE
+  runtime median   54493 instructions   2009 ns   batch 1:   54868 instructions   2018 ns   batch 20:   54493 instructions   1993 ns
+  direct median    2642 instructions    104 ns   batch 1:    2642 instructions    103 ns   batch 20:    2642 instructions    103 ns
+generic  $s24ExecuteDistributedTarget6WorkerC7genericyxxYaKSeRzSERzlFTE
+  runtime median   52039 instructions   1968 ns   batch 1:   52261 instructions   2021 ns   batch 20:   52043 instructions   1954 ns
+  direct median    1452 instructions     57 ns   batch 1:    1452 instructions     57 ns   batch 20:    1452 instructions     57 ns
+Load average at the end 2.70 2.27 2.19

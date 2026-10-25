@@ -1,0 +1,14 @@
+Per received call, allocations mode: 20 batches of 10000 calls each per target and path (the two paths alternate batch by batch); load average 11.90 24.55 23.48
+noArgs  $s24ExecuteDistributedTarget6WorkerC6noArgsyyYaKFTE
+  runtime median   3.00 allocations   batch 1:   3.00 allocations   batch 20:   3.00 allocations
+  direct median   0.00 allocations   batch 1:   0.00 allocations   batch 20:   0.00 allocations
+twoInts  $s24ExecuteDistributedTarget6WorkerC7twoIntsyS2i_SitYaKFTE
+  runtime median   6.00 allocations   batch 1:   6.00 allocations   batch 20:   6.00 allocations
+  direct median   0.00 allocations   batch 1:   0.00 allocations   batch 20:   0.00 allocations
+stringAndArray  $s24ExecuteDistributedTarget6WorkerC14stringAndArrayySiSS_SaySiGtYaKFTE
+  runtime median   6.00 allocations   batch 1:   6.00 allocations   batch 20:   6.00 allocations
+  direct median   0.00 allocations   batch 1:   0.00 allocations   batch 20:   0.00 allocations
+generic  $s24ExecuteDistributedTarget6WorkerC7genericyxxYaKSeRzSERzlFTE
+  runtime median   8.00 allocations   batch 1:   8.00 allocations   batch 20:   8.00 allocations
+  direct median   0.00 allocations   batch 1:   0.00 allocations   batch 20:   0.00 allocations
+Load average at the end 15.27 25.04 23.66
