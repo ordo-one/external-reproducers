@@ -42,7 +42,7 @@ The control, the check that the recipe is right: a library rebuilt from the snap
 ## Revisions
 
 - Toolchains: Apple Swift 6.4 (Xcode 27.1, `swiftlang-6.4.0.34.1`), and the main development snapshot `swift-DEVELOPMENT-SNAPSHOT-2026-10-17-a` (Swift 6.5-dev, built from `swiftlang/swift` `f62414fd1d17227`, the control's revision).
-- `swiftlang/swift` main at `47a456b8` (2026-10-25), the base of the branch `distributed/cache-target-signature`, published at `<BRANCH-URL>`, four commits:
+- `swiftlang/swift` main at `47a456b8` (2026-10-25), the base of the branch `distributed/cache-target-signature`, published at https://github.com/hassila/swift/tree/distributed/cache-target-signature, four commits:
   - `c44b49ed`: drops the unused `argumentTypes` array and the `utf8CString` conversion of the name (one allocation per call for the no-argument target, two for the others).
   - `34f62d0a`: resolves a target's signature once per accessor record (a `ConcurrentReadableHashMap` keyed by the record, holding the parameter count, the parameter and return type metadata and the generic environment, filled on first use with the same introspection entry points; a generic target still resolves its types per call). The cache is the library's first use of the runtime's threading primitives, so the commit also gives the shared library the runtime's threading objects and adds `ThreadingError.cpp` for their error handler, as `_Concurrency` does, in the stdlib build and in the standalone `Runtimes` build alike; on Darwin neither is reached.
   - `3e22d7a8`: the tests.
@@ -53,7 +53,7 @@ The head outputs in `results/` were measured on a library built from the head `0
 To build the measured libraries, in a clone of `swiftlang/swift`:
 
 ```bash
-git fetch <BRANCH-URL> distributed/cache-target-signature       # the repository the branch is published in
+git fetch https://github.com/hassila/swift distributed/cache-target-signature   # the repository the branch is published in
 git checkout 61ce96a4                                              # the branch head
 git checkout c44b49ed                                              # the allocations commit alone
 git fetch origin f62414fd1d17227037adf18df53a1dd95f72f1a2 && git checkout FETCH_HEAD   # the control (full hash needed)
