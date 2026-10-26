@@ -107,7 +107,7 @@ stringAndArray    44,073                 6          1,676 ns    2,660           
 generic           42,828                 8          1,653 ns    1,415                0            64 ns
 ```
 
-The same snapshot with `libswiftDistributed` rebuilt from the branch head `12d8a8cd` (fewer allocations, the signature cache and the explicit inlining; `results/head-*.md`):
+The same snapshot with `libswiftDistributed` rebuilt from the branch head `813f78b3` (fewer allocations, the signature cache and the explicit inlining; `results/head-*.md`):
 
 ```text
                  runtime path (`executeDistributedTarget`)         hand-written dispatch (lower bound)
@@ -124,17 +124,17 @@ Runtime path against runtime path, the branch head against the snapshot's own li
 - Toolchains: Apple Swift 6.4 (Xcode 27.1, `swiftlang-6.4.0.34.1`), and the main development snapshot `swift-DEVELOPMENT-SNAPSHOT-2026-10-17-a` (Swift 6.5-dev, built from `swiftlang/swift` `f62414fd1d17227`, the control's revision). The suite depends on `ordo-one/benchmark` 1.38.0, which brings `ordo-one/malloc-interposer` 1.6.0.
 - `swiftlang/swift` main at `c9ed278c` (2026-10-25), the base of the branch `distributed/cache-target-signature`, published at https://github.com/hassila/swift/tree/distributed/cache-target-signature, four commits:
   - `fc4eb53c`: drops the unused `argumentTypes` array and the `utf8CString` conversion of the name (one allocation per call for the no-argument target, two for the others).
-  - `ba66af26`: resolves a target's signature once per accessor record (a `ConcurrentReadableHashMap` keyed by the record, holding the parameter count, the parameter and return type metadata and the generic environment, filled on first use with the same introspection entry points; a generic target still resolves its types per call). The cache is the library's first use of the runtime's threading primitives, so the commit also gives the shared library the runtime's threading objects and adds `ThreadingError.cpp` for their error handler, as `_Concurrency` does, in the stdlib build and in the standalone `Runtimes` build alike; on Darwin neither is reached.
-  - `631ffdd3`: the tests.
-  - `12d8a8cd`: marks the accessor dispatcher `SWIFT_ALWAYS_INLINE`. Every rebuilt library carries the attribute, the control included (see the build script), so it is not a variable in any table.
+  - `d66b7bd0`: resolves a target's signature once per accessor record (a `ConcurrentReadableHashMap` keyed by the record, holding the parameter count, the parameter and return type metadata and the generic environment, filled on first use with the same introspection entry points; a generic target still resolves its types per call). The cache is the library's first use of the runtime's threading primitives, so the commit also gives the shared library the runtime's threading objects and adds `ThreadingError.cpp` for their error handler, as `_Concurrency` does, in the stdlib build and in the standalone `Runtimes` build alike; on Darwin neither is reached.
+  - `8d1c4f1b`: the tests.
+  - `813f78b3`: marks the accessor dispatcher `SWIFT_ALWAYS_INLINE`. Every rebuilt library carries the attribute, the control included (see the build script), so it is not a variable in any table.
 
-The measured libraries were built for this run from `git archive`s of `12d8a8cd` (sha256 `58fba5b8531c43fca082fa322de581a55092de93012691c7a5399923768ae3b9`), `fc4eb53c` (`f63655c605dbb984199b4d34dd0c0a49d88b0274b1bee533e31f8a30ba424bc7`) and `f62414fd` (`86b90e58e548203bb84ab416d2aa92e87277a994f943cdab57a2aa7bda00727b`). The library built from `12d8a8cd` is byte for byte the one the hand-written harness this suite replaces measured, which was built from `0a5029b3`, the branch head as it stood then (same sha256), and the one built from `fc4eb53c` is byte for byte the one it measured as the allocations commit, built from `c44b49ed`; the branch has since been rebased onto main `c9ed278c` without a change to any patch, and nothing between those revisions touches what the script compiles. `results/MANIFEST.md` has the machine, the toolchains, the package versions and the revision, compilers and checksum behind every configuration.
+The measured libraries were built for this run from `git archive`s of `813f78b3` (sha256 `58fba5b8531c43fca082fa322de581a55092de93012691c7a5399923768ae3b9`), `fc4eb53c` (`f63655c605dbb984199b4d34dd0c0a49d88b0274b1bee533e31f8a30ba424bc7`) and `f62414fd` (`86b90e58e548203bb84ab416d2aa92e87277a994f943cdab57a2aa7bda00727b`). The library built from `813f78b3` is byte for byte the one the hand-written harness this suite replaces measured, which was built from `0a5029b3`, the branch head as it stood then (same sha256), and the one built from `fc4eb53c` is byte for byte the one it measured as the allocations commit, built from `c44b49ed`; the branch has since been rebased onto main `c9ed278c` without a change to any patch, and nothing between those revisions touches what the script compiles. `results/MANIFEST.md` has the machine, the toolchains, the package versions and the revision, compilers and checksum behind every configuration.
 
 To build the measured libraries, in a clone of `swiftlang/swift`:
 
 ```bash
 git fetch https://github.com/hassila/swift distributed/cache-target-signature   # the repository the branch is published in
-git checkout 12d8a8cd                                              # the branch head
+git checkout 813f78b3                                              # the branch head
 git checkout fc4eb53c                                              # the allocations commit alone
 git fetch origin f62414fd1d17227037adf18df53a1dd95f72f1a2 && git checkout FETCH_HEAD   # the control (full hash needed)
 ```
