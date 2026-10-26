@@ -26,7 +26,7 @@ EXE=$PWD/.build/release/ExecuteDistributedTarget run --metrics mallocCountTotal 
 EXE=$PWD/.build-plain/release/ExecuteDistributedTarget run --metrics instructions --metrics wallClock > results/64-timing.md
 ```
 
-What it shows: on the shipped runtime every received call pays for `swift_func_getParameterCount`, `swift_func_getParameterTypeInfo` and `swift_func_getReturnTypeInfo` on the target's mangled name, three demangles and the type resolution behind them, plus eight allocations for a two-argument target (the UTF-8 copy of the name, one demangler slab per introspection call, the parameter type buffer, an `argumentTypes` array nothing reads, the result buffer, and the implicit `utf8CString` conversion of the name). The cost does not fall with repetition: in every committed export the runtime path's cheapest sample (p0) is within 0.3 % of its median instructions, and the p90 within 8.0 % (the most on `String` plus `[Int]` on the branch head, 9,404 against 8,708).
+What it shows: on the shipped runtime every received call pays for `swift_func_getParameterCount`, `swift_func_getParameterTypeInfo` and `swift_func_getReturnTypeInfo` on the target's mangled name, three demangles and the type resolution behind them, plus eight allocations for a two-argument target (the UTF-8 copy of the name, one demangler slab per introspection call, the parameter type buffer, an `argumentTypes` array nothing reads, the result buffer, and the implicit `utf8CString` conversion of the name). The cost does not fall with repetition: in every committed export the runtime path's cheapest sample (p0) is within 0.3 % of its median instructions, and the p90 within 7.9 % (the most on `String` plus `[Int]` on the branch head, 9,363 against 8,675).
 
 The hand-written dispatch (a dictionary lookup on the identifier, the arguments decoded in declaration order, the local call through the distributed thunk) is an optimised lower bound, not a measure of the signature resolution alone: besides skipping the resolution it decodes the arguments and delivers the result with the types known statically, with no result buffer and no dynamic handler invocation, and it calls the generic target specialised to `Int`. On Swift 6.4 it is 17 to 36 times fewer instructions than the runtime path and allocates nothing. The shipped library against the branch head, below, is the combined effect of the branch; the saving attributable to the signature cache alone is the library built from the commit before the cache against the one built from the branch head, with the same flags.
 
@@ -61,63 +61,63 @@ EXE=$PWD/.build-main/release/ExecuteDistributedTarget run --metrics mallocCountT
 EXE=$PWD/.build-main-plain/release/ExecuteDistributedTarget run --metrics instructions --metrics wallClock > results/rebuilt-timing.md
 ```
 
-The control, the check that the recipe is right: a library rebuilt from the snapshot's own revision measures the same as the snapshot's own library. In the committed exports (`results/control-*.md` against `results/snapshot-*.md`) the two agree to within 229 instructions per call on three targets and within 721 on the generic target, and the `malloc` counts are identical.
+The control, the check that the recipe is right: a library rebuilt from the snapshot's own revision measures the same as the snapshot's own library. In the committed exports (`results/control-*.md` against `results/snapshot-*.md`) the two agree to within 360 instructions per call on three targets and within 492 on the `String` plus `[Int]` target, and the `malloc` counts are identical.
 
 ## Numbers
 
-Apple M4 Max (16 cores, 128 GB), macOS 27.0 (26A428); the full environment, the package versions, and the revision, compilers and checksum behind each configuration are recorded in `results/MANIFEST.md`. Each table is the median sample (p50) of the committed exports `results/<configuration>-timing.md` (instructions and wall clock, the build without the interposer) and `results/<configuration>-mallocs.md` (the default build), 500 samples of a thousand calls each. The five configurations were run one after the other, the `malloc` round first and the timing round after it, from executables built fresh for the run, on 2026-10-26 from 09:03 to 09:04 at a one-minute load average of 6.24 to 7.49, on a shared machine (the 45 minutes then waited for a quiet moment never saw the load under 3, so this run stands), so the wall clock columns are indicative only; the `malloc` counts do not depend on the load, and the instruction counts are the figures to compare (the hand-written harness this suite replaces measured the same five configurations on a quiet machine earlier the same day, `results/*.txt` at commit `a3ec79f`; its runtime-path instruction medians are within 1 % of these on 16 of the 20 rows and within 5 % on all, and its allocation counts are identical).
+Apple M4 Max (16 cores, 128 GB), macOS 27.0 (26A428); the full environment, the package versions, and the revision, compilers and checksum behind each configuration are recorded in `results/MANIFEST.md`. Each table is the median sample (p50) of the committed exports `results/<configuration>-timing.md` (instructions and wall clock, the build without the interposer) and `results/<configuration>-mallocs.md` (the default build), 500 samples of a thousand calls each. The five configurations were run one after the other within each round, from executables built fresh for the work: the `malloc` round on 2026-10-26 at 09:03 at a one-minute load average of 7.13 to 7.49 (the counts do not depend on the load), the timing round on 2026-10-26 at 10:17 at a one-minute load average of 2.36 to 2.43, on a quiet machine with nothing else running (the hand-written harness this suite replaces measured the same five configurations on a quiet machine earlier the same day, `results/*.txt` at commit `a3ec79f`; its runtime-path instruction medians are within 1 % of these on 15 of the 20 rows and within 5 % on all, and its allocation counts are identical).
 
 Swift 6.4 as shipped, against the OS library (`results/64-*.md`):
 
 ```text
                  runtime path (`executeDistributedTarget`)         hand-written dispatch (lower bound)
-noArgs            22,217 instructions    4 mallocs    965 ns    1,287 instructions   0 mallocs    62 ns
-twoInts           44,237                 8          1,829 ns    1,563                0            74 ns
-stringAndArray    54,723                 8          2,374 ns    2,628                0           129 ns
-generic           52,036                10          2,294 ns    1,464                0            70 ns
+noArgs            22,217 instructions    4 mallocs    911 ns    1,287 instructions   0 mallocs    63 ns
+twoInts           44,237                 8          1,711 ns    1,563                0            74 ns
+stringAndArray    54,559                 8          2,120 ns    2,632                0           132 ns
+generic           52,036                10          2,040 ns    1,464                0            70 ns
 ```
 
 Main snapshot 2026-10-17, its own `libswiftDistributed` (already rejecting unknown targets before demangling, swiftlang/swift#92264, and passing the name's byte length, swiftlang/swift#92090) (`results/snapshot-*.md`):
 
 ```text
                  runtime path (`executeDistributedTarget`)         hand-written dispatch (lower bound)
-noArgs            21,299 instructions    4 mallocs    875 ns    1,256 instructions   0 mallocs    56 ns
-twoInts           35,586                 8          1,489 ns    1,509                0            68 ns
-stringAndArray    45,318                 8          1,906 ns    2,398                0           105 ns
-generic           44,335                10          1,894 ns    1,415                0            64 ns
+noArgs            21,299 instructions    4 mallocs    785 ns    1,326 instructions   0 mallocs    59 ns
+twoInts           35,946                 8          1,362 ns    1,509                0            68 ns
+stringAndArray    45,449                 8          1,714 ns    2,398                0           108 ns
+generic           44,564                10          1,709 ns    1,415                0            63 ns
 ```
 
 The same snapshot with `libswiftDistributed` rebuilt from its own revision `f62414fd`, the control (`results/control-*.md`):
 
 ```text
                  runtime path (`executeDistributedTarget`)         hand-written dispatch (lower bound)
-noArgs            21,299 instructions    4 mallocs    867 ns    1,256 instructions   0 mallocs    56 ns
-twoInts           35,815                 8          1,486 ns    1,509                0            68 ns
-stringAndArray    45,154                 8          1,908 ns    2,398                0           106 ns
-generic           45,056                10          1,953 ns    1,415                0            64 ns
+noArgs            21,299 instructions    4 mallocs    791 ns    1,256 instructions   0 mallocs    59 ns
+twoInts           35,586                 8          1,337 ns    1,509                0            70 ns
+stringAndArray    45,941                 8          1,736 ns    2,609                0           112 ns
+generic           44,433                10          1,706 ns    1,415                0            65 ns
 ```
 
 The same snapshot with `libswiftDistributed` rebuilt from `fc4eb53c` alone (fewer allocations; `results/alloc-*.md`):
 
 ```text
                  runtime path (`executeDistributedTarget`)         hand-written dispatch (lower bound)
-noArgs            20,365 instructions    3 mallocs    852 ns    1,326 instructions   0 mallocs    58 ns
-twoInts           34,308                 6          1,452 ns    1,719                0            76 ns
-stringAndArray    43,811                 6          1,890 ns    2,433                0           108 ns
-generic           43,123                 8          1,889 ns    1,415                0            64 ns
+noArgs            20,365 instructions    3 mallocs    740 ns    1,256 instructions   0 mallocs    59 ns
+twoInts           34,669                 6          1,306 ns    1,509                0            70 ns
+stringAndArray    44,073                 6          1,676 ns    2,660                0           117 ns
+generic           42,828                 8          1,653 ns    1,415                0            64 ns
 ```
 
 The same snapshot with `libswiftDistributed` rebuilt from the branch head `12d8a8cd` (fewer allocations, the signature cache and the explicit inlining; `results/head-*.md`):
 
 ```text
                  runtime path (`executeDistributedTarget`)         hand-written dispatch (lower bound)
-noArgs             3,658 instructions    2 mallocs    160 ns    1,457 instructions   0 mallocs    64 ns
-twoInts            7,946                 2            314 ns    1,579                0            71 ns
-stringAndArray     8,708                 2            350 ns    2,402                0           108 ns
-generic           33,161                 7          1,442 ns    1,415                0            64 ns
+noArgs             3,658 instructions    2 mallocs    150 ns    1,256 instructions   0 mallocs    59 ns
+twoInts            7,946                 2            295 ns    1,579                0            73 ns
+stringAndArray     8,675                 2            325 ns    2,398                0           109 ns
+generic           33,096                 7          1,284 ns    1,415                0            67 ns
 ```
 
-Runtime path against runtime path, the branch head against the snapshot's own library is the combined effect of the branch: the two-`Int` call goes from 35,586 to 7,946 instructions (4.5 times fewer) and from 8 to 2 `malloc` calls, the no-argument call from 21,299 to 3,658 (5.8 times fewer) and from 4 to 2, `String` plus `[Int]` from 45,318 to 8,708 (5.2 times fewer) and from 8 to 2; the generic target keeps its per-call type resolution and goes from 44,335 to 33,161 (1.3 times fewer) and from 10 to 7. The signature cache alone is the branch head against the allocations commit, built with the same flags: the two-`Int` call from 34,308 to 7,946 (4.3 times fewer) and from 6 to 2 `malloc` calls, the no-argument call from 20,365 to 3,658 (5.6 times fewer) and from 3 to 2, `String` plus `[Int]` from 43,811 to 8,708 (5.0 times fewer) and from 6 to 2, the generic target from 43,123 to 33,161 (1.3 times fewer) and from 8 to 7. The allocations commit alone saves 934 to 1,507 instructions per call and one `malloc` call for the no-argument target, two for the others. The two `malloc` calls left on a non-generic target are the UTF-8 copy of the name and the result buffer.
+Runtime path against runtime path, the branch head against the snapshot's own library is the combined effect of the branch: the two-`Int` call goes from 35,946 to 7,946 instructions (4.5 times fewer) and from 8 to 2 `malloc` calls, the no-argument call from 21,299 to 3,658 (5.8 times fewer) and from 4 to 2, `String` plus `[Int]` from 45,449 to 8,675 (5.2 times fewer) and from 8 to 2; the generic target keeps its per-call type resolution and goes from 44,564 to 33,096 (1.3 times fewer) and from 10 to 7. The signature cache alone is the branch head against the allocations commit, built with the same flags: the two-`Int` call from 34,669 to 7,946 (4.4 times fewer) and from 6 to 2 `malloc` calls, the no-argument call from 20,365 to 3,658 (5.6 times fewer) and from 3 to 2, `String` plus `[Int]` from 44,073 to 8,675 (5.1 times fewer) and from 6 to 2, the generic target from 42,828 to 33,096 (1.3 times fewer) and from 8 to 7. The allocations commit alone saves 934 to 1,736 instructions per call and one `malloc` call for the no-argument target, two for the others. The two `malloc` calls left on a non-generic target are the UTF-8 copy of the name and the result buffer.
 
 ## Revisions
 

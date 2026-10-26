@@ -9,25 +9,25 @@ Darwin Kernel Version 27.0.0: Tue Aug 11 21:05:48 PDT 2026; root:xnu-13432.1.9~1
 
 | Test                                                                    |        p0 |       p25 |       p50 |       p75 |       p90 |       p99 |      p100 |   Samples |
 |:------------------------------------------------------------------------|----------:|----------:|----------:|----------:|----------:|----------:|----------:|----------:|
-| ExecuteDistributedTarget:executeDistributedTarget generic *             |     33146 |     33161 |     33161 |     33161 |     33161 |     33980 |     34642 |       500 |
-| ExecuteDistributedTarget:executeDistributedTarget noArgs *              |      3646 |      3658 |      3658 |      3785 |      3795 |      4235 |      4240 |       500 |
-| ExecuteDistributedTarget:executeDistributedTarget stringAndArray *      |      8698 |      8708 |      8708 |      8708 |      9404 |      9769 |      9769 |       500 |
+| ExecuteDistributedTarget:executeDistributedTarget generic *             |     33076 |     33096 |     33096 |     33096 |     33096 |     33915 |     34572 |       500 |
+| ExecuteDistributedTarget:executeDistributedTarget noArgs *              |      3646 |      3658 |      3658 |      3795 |      3795 |      4165 |      4165 |       500 |
+| ExecuteDistributedTarget:executeDistributedTarget stringAndArray *      |      8658 |      8675 |      8675 |      8675 |      9363 |      9729 |      9729 |       500 |
 | ExecuteDistributedTarget:executeDistributedTarget twoInts *             |      7935 |      7946 |      7946 |      7946 |      8413 |      8778 |      8778 |       500 |
-| ExecuteDistributedTarget:handWritten generic *                          |      1405 |      1415 |      1415 |      1415 |      1415 |      1415 |      1415 |       500 |
-| ExecuteDistributedTarget:handWritten noArgs *                           |      1456 |      1456 |      1457 |      1468 |      1477 |      1483 |      1491 |       500 |
-| ExecuteDistributedTarget:handWritten stringAndArray *                   |      2388 |      2398 |      2402 |      2660 |      2660 |      2675 |      2676 |       500 |
-| ExecuteDistributedTarget:handWritten twoInts *                          |      1545 |      1579 |      1579 |      1580 |      1582 |      1592 |      1593 |       500 |
+| ExecuteDistributedTarget:handWritten generic *                          |      1371 |      1415 |      1415 |      1415 |      1415 |      1415 |      1415 |       500 |
+| ExecuteDistributedTarget:handWritten noArgs *                           |      1246 |      1246 |      1256 |      1256 |      1256 |      1256 |      1258 |       500 |
+| ExecuteDistributedTarget:handWritten stringAndArray *                   |      2388 |      2398 |      2398 |      2660 |      2660 |      2660 |      2663 |       500 |
+| ExecuteDistributedTarget:handWritten twoInts *                          |      1535 |      1545 |      1579 |      1579 |      1579 |      1580 |      1582 |       500 |
 
 ### Time (wall clock)
 
 | Test                                                                    |        p0 |       p25 |       p50 |       p75 |       p90 |       p99 |      p100 |   Samples |
 |:------------------------------------------------------------------------|----------:|----------:|----------:|----------:|----------:|----------:|----------:|----------:|
-| ExecuteDistributedTarget:executeDistributedTarget generic (ns) *        |      1408 |      1435 |      1442 |      1451 |      1467 |      1504 |      1518 |       500 |
-| ExecuteDistributedTarget:executeDistributedTarget noArgs (ns) *         |       129 |       157 |       160 |       163 |       168 |       182 |       187 |       500 |
-| ExecuteDistributedTarget:executeDistributedTarget stringAndArray (ns) * |       337 |       347 |       350 |       354 |       388 |       404 |       430 |       500 |
-| ExecuteDistributedTarget:executeDistributedTarget twoInts (ns) *        |       266 |       310 |       314 |       320 |       339 |       355 |       359 |       500 |
-| ExecuteDistributedTarget:handWritten generic (ns) *                     |        60 |        63 |        64 |        65 |        65 |        68 |        72 |       500 |
-| ExecuteDistributedTarget:handWritten noArgs (ns) *                      |        60 |        63 |        64 |        65 |        66 |        68 |        85 |       500 |
-| ExecuteDistributedTarget:handWritten stringAndArray (ns) *              |        92 |       106 |       108 |       124 |       126 |       133 |       134 |       500 |
-| ExecuteDistributedTarget:handWritten twoInts (ns) *                     |        62 |        70 |        71 |        71 |        73 |        73 |        76 |       500 |
+| ExecuteDistributedTarget:executeDistributedTarget generic (ns) *        |      1264 |      1275 |      1284 |      1299 |      1316 |      1426 |      1501 |       500 |
+| ExecuteDistributedTarget:executeDistributedTarget noArgs (ns) *         |       141 |       147 |       150 |       155 |       157 |       168 |       171 |       500 |
+| ExecuteDistributedTarget:executeDistributedTarget stringAndArray (ns) * |       315 |       324 |       325 |       347 |       385 |       417 |       426 |       500 |
+| ExecuteDistributedTarget:executeDistributedTarget twoInts (ns) *        |       282 |       291 |       295 |       301 |       324 |       342 |       357 |       500 |
+| ExecuteDistributedTarget:handWritten generic (ns) *                     |        62 |        66 |        67 |        67 |        67 |        70 |        72 |       500 |
+| ExecuteDistributedTarget:handWritten noArgs (ns) *                      |        49 |        59 |        59 |        59 |        60 |        60 |        67 |       500 |
+| ExecuteDistributedTarget:handWritten stringAndArray (ns) *              |        98 |       106 |       109 |       120 |       122 |       123 |       135 |       500 |
+| ExecuteDistributedTarget:handWritten twoInts (ns) *                     |        68 |        72 |        73 |        75 |        75 |        80 |        84 |       500 |
 

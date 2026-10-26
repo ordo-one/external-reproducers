@@ -6,7 +6,7 @@ Where the committed exports in this directory were taken, and what built the cod
 
 - Apple M4 Max, 16 cores (12 performance, 4 efficiency), 128 GB, arm64.
 - macOS 27.0, build 26A428.
-- The exports were taken on 2026-10-26 from 09:03 to 09:04 at a one-minute load average of 6.24 to 7.49, the five configurations one after the other within each round (the `malloc` round first, then the timing round), from benchmark executables built fresh for the run. The `malloc` counts do not depend on the load; instructions are process-wide and include whatever else the process's threads do inside a sample; the wall clock depends on the machine's state and is the figure to read with the load in mind; the machine was shared and loaded throughout this run, so the wall clock columns are indicative only.
+- The `malloc` exports were taken on 2026-10-26 at 09:03 at a one-minute load average of 7.13 to 7.49 and the timing exports on 2026-10-26 at 10:17 at a one-minute load average of 2.36 to 2.43, the five configurations one after the other within each round, from benchmark executables built fresh for the work. The `malloc` counts do not depend on the load; instructions are process-wide and include whatever else the process's threads do inside a sample; the wall clock depends on the machine's state and is the figure to read with the load in mind; the machine was quiet during the timing round, with nothing else running.
 
 ## Toolchains and packages
 
